@@ -7,70 +7,93 @@
 import React from 'react';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import ContextPure from 'material-ui/lib/mixins/context-pure';
+import DatePicker from 'material-ui/lib/date-picker/date-picker';
+
+const moment = require('moment');
 
 export default class DateFieldView extends React.Component {
 
-    static propTypes = {
-        children: React.PropTypes.node
+  static propTypes = {
+    children: React.PropTypes.node
+  };
+
+  static contextTypes = {
+    muiTheme: React.PropTypes.object,
+    views: React.PropTypes.object,
+  };
+
+  static childContextTypes = {
+    muiTheme: React.PropTypes.object,
+    views: React.PropTypes.object,
+  };
+
+  static mixins = [
+    ContextPure
+  ];
+
+  constructor(props, context) {
+    super(props);
+    this._handleChange = this._handleChange.bind(this);
+    this._formatDate = this._formatDate.bind(this);
+    this.state = {
+      muiTheme: context.muiTheme ? context.muiTheme : getMuiTheme(),
+      views: context.views,
+      value: props.value ? new Date(props.value) : null
     };
+  }
 
-    static contextTypes = {
-        muiTheme: React.PropTypes.object,
-        views: React.PropTypes.object,
+  getChildContext() {
+    return {
+      muiTheme: this.state.muiTheme,
+      views: this.context.views,
     };
+  }
 
-    static childContextTypes = {
-        muiTheme: React.PropTypes.object,
-        views: React.PropTypes.object,
-    };
-
-    static mixins = [
-        ContextPure
-    ];
-
-    constructor(props, context) {
-        super(props);
-        this.state = {
-            muiTheme: context.muiTheme ? context.muiTheme : getMuiTheme(),
-            views: context.views
-        };
+  componentWillReceiveProps(nextProps, nextContext) {
+    let newState = {};
+    if (nextContext.muiTheme) {
+      newState.muiTheme = nextContext.muiTheme;
     }
-
-    getChildContext() {
-        return {
-            muiTheme: this.state.muiTheme,
-            views: this.context.views,
-        };
+    if (nextContext.views) {
+      newState.views = nextContext.views;
     }
-
-    componentWillMount() {
+    if (nextProps.value) {
+      newState.value = new Date(nextProps.value);
     }
+    this.setState(newState);
+  }
 
-    componentDidMount() {
-    }
+  _handleChange(event, value) {
+    this.props.onChange && this.props.onChange(value);
+  }
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        let newState = {};
-        if (nextContext.muiTheme) {
-            newState.muiTheme = nextContext.muiTheme;
-        }
-        if (nextContext.views) {
-            newState.views = nextContext.views;
-        }
-        this.setState(newState);
-    }
+  _formatDate(date) {
+    return moment(date).format(this.props.field.format);
+  }
 
-    componentWillUnmount() {
+  render() {
+    let {
+      model,
+      data,
+      field,
+      value,
+      onChange,
+      ...others
+      } = this.props;
+    if (value) {
+      value = new Date(value);
     }
-
-    render() {
-        let props = this.props;
-        let state = this.state;
-        let styles = {
-            root: {}
-        };
-        return (
-            <div style={styles.root}>DateFieldView Component</div>
-        );
-    }
+    return (
+      <div><DatePicker
+        ref="input"
+        fullWidth={field.fullWidth}
+        hintText={field.label}
+        value={value}
+        onChange={this._handleChange}
+        autoOk={true}
+        formatDate={this._formatDate}
+        {...others}
+      /></div>
+    );
+  }
 }

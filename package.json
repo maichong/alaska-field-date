@@ -32,5 +32,8 @@
   },
   "peerDependencies": {
     "alaska": "*"
+  },
+  "dependencies": {
+    "moment": "^2.12.0"
   }
 }

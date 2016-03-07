@@ -20,3 +20,17 @@ exports.views = {
 };
 
 exports.plain = Date;
+
+/**
+ * alaska-admin-view 前端控件初始化参数
+ * @param field
+ * @param Model
+ */
+exports.viewOptions = function (field, Model) {
+  let options = alaska.Field.viewOptions.apply(this, arguments);
+  options.format = field.format;
+  if (!options.format) {
+    options.format = 'YYYY-MM-DD';
+  }
+  return options;
+};

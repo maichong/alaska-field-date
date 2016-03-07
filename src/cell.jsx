@@ -7,6 +7,7 @@
 import React from 'react';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import ContextPure from 'material-ui/lib/mixins/context-pure';
+const moment = require('moment');
 
 export default class DateFieldCell extends React.Component {
 
@@ -70,7 +71,7 @@ export default class DateFieldCell extends React.Component {
       root: {}
     };
     return (
-      <div style={styles.root}>DateFieldCell Component</div>
+      <div style={styles.root}>{moment(props.value).format(props.field.format)}</div>
     );
   }
 }
