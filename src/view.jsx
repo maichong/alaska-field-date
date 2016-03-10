@@ -83,17 +83,21 @@ export default class DateFieldView extends React.Component {
     if (value) {
       value = new Date(value);
     }
+
+    let { muiTheme } = this.state;
+    let noteElement = field.note ?
+      <div style={field.fullWidth?muiTheme.fieldNote:muiTheme.fieldNoteInline}>{field.note}</div> : null;
     return (
       <div><DatePicker
         ref="input"
         fullWidth={field.fullWidth}
-        hintText={field.label}
+        floatingLabelText={field.label}
         value={value}
         onChange={this._handleChange}
         autoOk={true}
         formatDate={this._formatDate}
         {...others}
-      /></div>
+      />{noteElement}</div>
     );
   }
 }
