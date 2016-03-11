@@ -9,6 +9,8 @@ import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import ContextPure from 'material-ui/lib/mixins/context-pure';
 import DatePicker from 'material-ui/lib/date-picker/date-picker';
 
+import { shallowEqual } from 'alaska-admin-view';
+
 const moment = require('moment');
 
 export default class DateFieldView extends React.Component {
@@ -33,8 +35,8 @@ export default class DateFieldView extends React.Component {
 
   constructor(props, context) {
     super(props);
-    this._handleChange = this._handleChange.bind(this);
-    this._formatDate = this._formatDate.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.formatDate = this.formatDate.bind(this);
     this.state = {
       muiTheme: context.muiTheme ? context.muiTheme : getMuiTheme(),
       views: context.views,
@@ -63,11 +65,15 @@ export default class DateFieldView extends React.Component {
     this.setState(newState);
   }
 
-  _handleChange(event, value) {
+  shouldComponentUpdate(props) {
+    return !shallowEqual(props, this.props, 'data', 'onChange', 'model');
+  }
+
+  handleChange(event, value) {
     this.props.onChange && this.props.onChange(value);
   }
 
-  _formatDate(date) {
+  formatDate(date) {
     return moment(date).format(this.props.field.format);
   }
 
@@ -93,9 +99,9 @@ export default class DateFieldView extends React.Component {
         fullWidth={field.fullWidth}
         floatingLabelText={field.label}
         value={value}
-        onChange={this._handleChange}
+        onChange={this.handleChange}
         autoOk={true}
-        formatDate={this._formatDate}
+        formatDate={this.formatDate}
         {...others}
       />{noteElement}</div>
     );

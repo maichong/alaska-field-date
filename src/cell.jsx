@@ -44,12 +44,6 @@ export default class DateFieldCell extends React.Component {
     };
   }
 
-  componentWillMount() {
-  }
-
-  componentDidMount() {
-  }
-
   componentWillReceiveProps(nextProps, nextContext) {
     let newState = {};
     if (nextContext.muiTheme) {
@@ -61,7 +55,8 @@ export default class DateFieldCell extends React.Component {
     this.setState(newState);
   }
 
-  componentWillUnmount() {
+  shouldComponentUpdate(props) {
+    return props.value != this.props.value;
   }
 
   render() {
