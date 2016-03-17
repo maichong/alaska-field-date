@@ -79,12 +79,8 @@ export default class DateFieldView extends React.Component {
 
   render() {
     let {
-      model,
-      data,
       field,
-      value,
-      onChange,
-      ...others
+      value
       } = this.props;
     if (value) {
       value = new Date(value);
@@ -102,7 +98,6 @@ export default class DateFieldView extends React.Component {
         onChange={this.handleChange}
         autoOk={true}
         formatDate={this.formatDate}
-        {...others}
       />{noteElement}</div>
     );
   }
