@@ -80,7 +80,8 @@ export default class DateFieldView extends React.Component {
   render() {
     let {
       field,
-      value
+      value,
+      disabled
       } = this.props;
     if (value) {
       value = new Date(value);
@@ -92,6 +93,7 @@ export default class DateFieldView extends React.Component {
     return (
       <div><DatePicker
         ref="input"
+        disabled={disabled}
         fullWidth={field.fullWidth}
         floatingLabelText={field.label}
         value={value}
