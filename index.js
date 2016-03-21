@@ -12,10 +12,9 @@ const moment = require('moment');
 class DateField extends alaska.Field {
   init() {
     let field = this;
-    field.cellFormat = field.cellFormat || 'YYYY-MM-DD';
     field.format = field.format || 'YYYY-MM-DD';
     this.underscoreMethod('format', function (format) {
-      return moment(this.get(field.path)).format(format || field.format || 'YYYY-MM-DD');
+      return moment(this.get(field.path)).format(format || field.format);
     });
   }
 
@@ -103,4 +102,6 @@ DateField.plain = Date;
 
 DateField.options = ['min', 'max', 'expires'];
 
-DateField.viewOptions = ['min', 'max', 'format', 'cellFormat'];
+DateField.viewOptions = ['min', 'max', 'format'];
+
+module.exports = DateField;
