@@ -22,8 +22,16 @@ export default class DateFieldView extends React.Component {
     let props = this.props;
     let value = props.value;
     let field = props.field;
+    let errorText = props.errorText;
+    let help = field.help;
+    let className = 'form-group';
+    if (errorText) {
+      className += ' has-error';
+      help = errorText;
+    }
+    let helpElement = help ? <p className="help-block">{help}</p> : null;
     return (
-      <div className="form-group">
+      <div className={className}>
         <label className="col-sm-2 control-label">{field.label}</label>
         <div className="col-sm-10">
           <DateTime
@@ -32,6 +40,7 @@ export default class DateFieldView extends React.Component {
             timeFormat={false}
             onChange={props.onChange}
           />
+          {helpElement}
         </div>
       </div>
     );
