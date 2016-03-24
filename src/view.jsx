@@ -34,12 +34,14 @@ export default class DateFieldView extends React.Component {
       <div className={className}>
         <label className="col-sm-2 control-label">{field.label}</label>
         <div className="col-sm-10">
-          <DateTime
-            value={value}
-            dateFormat={field.format}
-            timeFormat={false}
-            onChange={props.onChange}
-          />
+          {
+            disabled ? <input type="text" className="form-control" disabled value={value}/> : <DateTime
+              value={value}
+              dateFormat={field.format}
+              timeFormat={false}
+              onChange={props.onChange}
+            />
+          }
           {helpElement}
         </div>
       </div>
