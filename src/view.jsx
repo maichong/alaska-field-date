@@ -10,9 +10,18 @@ import { shallowEqual } from 'alaska-admin-view';
 import DateTime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import moment from 'moment';
+import 'moment/locale/zh-tw';
 import 'moment/locale/zh-cn';
 
 export default class DateFieldView extends React.Component {
+
+  static contextTypes = {
+    settings: React.PropTypes.object
+  };
+
+  componentWillMount() {
+    moment.locale(this.context.settings.locale);
+  }
 
   shouldComponentUpdate(props) {
     return !shallowEqual(props, this.props, 'data', 'onChange', 'model');
