@@ -91,11 +91,11 @@ class DateField extends alaska.Field {
 DateField.views = {
   cell: {
     name: 'DateFieldCell',
-    field: __dirname + '/lib/cell.js'
+    path: __dirname + '/lib/cell.js'
   },
   view: {
     name: 'DateFieldView',
-    field: __dirname + '/lib/view.js'
+    path: __dirname + '/lib/view.js'
   }
 };
 
